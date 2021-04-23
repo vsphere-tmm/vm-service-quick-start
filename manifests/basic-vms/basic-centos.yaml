@@ -1,0 +1,13 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: basic-centos
+  namespace: vm-operator
+spec:
+  networkInterfaces:
+  - networkName: "primary"
+    networkType: vsphere-distributed
+  className: best-effort-small
+  imageName: centos-stream-8-vmservice-v1alpha1.20210222
+  powerState: poweredOn
+  storageClass: wcpglobal-storage-profile

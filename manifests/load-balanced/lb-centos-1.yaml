@@ -1,0 +1,34 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: lb-centos-1
+  namespace: vm-operator
+  labels:
+    app: lb-app
+spec:
+  networkInterfaces:
+  - networkName: "primary"
+    networkType: vsphere-distributed
+  className: best-effort-small
+  imageName: centos-stream-8-vmservice-v1alpha1.20210222
+  powerState: poweredOn
+  storageClass: wcpglobal-storage-profile
+  volumes:
+    - name: myRootDisk
+      vSphereVolume:
+        deviceKey: 2000
+        capacity:
+            ephemeral-storage: "50Gi"
+  vmMetadata:
+    configMapName: centos-cloudinit-nginx-1
+    transport: OvfEnv
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: centos-cloudinit-nginx-1
+    namespace: vm-operator
+data:
+  user-data: |
+    I2Nsb3VkLWNvbmZpZwpjaHBhc3N3ZDoKICAgIGxpc3Q6IHwKICAgICAgY2VudG9zOlZNd2FyZTEhCiAgICBleHBpcmU6IGZhbHNlCmdyb3VwczoKICAtIGRvY2tlcgp1c2VyczoKICAtIGRlZmF1bHQKICAtIG5hbWU6IGNlbnRvcwogICAgc3NoLWF1dGhvcml6ZWQta2V5czoKICAgICAgLSBzc2gtcnNhIEFBQUFCM056YUMxeWMyRUFBQUFEQVFBQkFBQUJnUURDckxaV3RBbVRkNEY0WkVBVzIvOUR2VFY5RHNaeUZIVU5BSTk2SENGM2t4Q2M3ZlFmelp6YnllS09GTXFFQ25uZURlczFjbkkvVDVadlVrQ01qUzBkdldnWFZxdzFiclFSbVBmRzJPS1pUalZkYlpJaXE3SG9KdVd4REpmODFKZmpkY2pRQnBxNHZYNzdQNk1FekpxVVlNM2x0d3ZFbzdTUjVMMGIvNG5XUXNDWGxrQk9lZlJiaWowaVpPcjdHLy9rdVNIMG9JQW1jZlZ3elFHOVMxYUk4dHNlWm8reDgzdEViZDRiTzd4TlFQNzVySXU1bUZGUTlxK3IwYlduU2RDa1RxMUt0bjJEazJWYjRxRDdKN2c3UUlTTVRlVDVHandsTms5SHhzMVNVREsxS25NcFNGdjhjbld5VDZMZm5mSTFJTHczdHVEMjVvN0JNYkxSWGdFZXd2V2o1SExZQml0R0JZN2haNmtsV2x5QWRLS2Z6ckdTNnVWaUpMc2ZaNnlkd0lNcnM1L3cySXBKUi9xNUZKRjE3d1kvM2RPTVk1L3QvbDQ3aFpOdVRPM2hsV2pzSXQydzFZQkdRbmF4dnFFS1F5M2tyWE1MZ1JOS2NsMkhnTW1rdnJSMHd0YWJJTzk0Sm5DUXlWaUtEM204dkM2RVBqZ0l2V3RCYU4yVFA3TT0gbXlsZXNnQG15bGVzZy1hMDIudm13YXJlLmNvbQogICAgc3VkbzogQUxMPShBTEwpIE5PUEFTU1dEOkFMTAogICAgZ3JvdXBzOiBzdWRvLCBkb2NrZXIKICAgIHNoZWxsOiAvYmluL2Jhc2gKbmV0d29yazoKICB2ZXJzaW9uOiAyCiAgZXRoZXJuZXRzOgogICAgICBlbnMxOTI6CiAgICAgICAgICBkaGNwNDogdHJ1ZQpwYWNrYWdlX3VwZGF0ZTogdHJ1ZQpwYWNrYWdlczoKICAtIG5naW54CiAgLSBuZXQtdG9vbHMKcnVuY21kOgogIC0gZWNobyAnPGgxPmxiLWNlbnRvcy0xPC9oMT4nID4gL3Vzci9zaGFyZS9uZ2lueC9odG1sL2luZGV4Lmh0bWwKICAtIGNob3duIHJvb3Q6cm9vdCAvdXNyL3NoYXJlL25naW54L2h0bWwvaW5kZXguaHRtbAogIC0gc3lzdGVtY3RsIHN0YXJ0IG5naW54CiAgLSBmaXJld2FsbC1vZmZsaW5lLWNtZCAtLWFkZC1zZXJ2aWNlPWh0dHAKICAtIGZpcmV3YWxsLWNtZCAtLXJlbG9hZA==
+  hostname: lb-centos-1

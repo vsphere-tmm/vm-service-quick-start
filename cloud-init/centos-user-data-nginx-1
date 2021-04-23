@@ -1,0 +1,30 @@
+#cloud-config
+chpasswd:
+    list: |
+      centos:VMware1!
+    expire: false
+groups:
+  - docker
+users:
+  - default
+  - name: centos
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCrLZWtAmTd4F4ZEAW2/9DvTV9DsZyFHUNAI96HCF3kxCc7fQfzZzbyeKOFMqECnneDes1cnI/T5ZvUkCMjS0dvWgXVqw1brQRmPfG2OKZTjVdbZIiq7HoJuWxDJf81JfjdcjQBpq4vX77P6MEzJqUYM3ltwvEo7SR5L0b/4nWQsCXlkBOefRbij0iZOr7G//kuSH0oIAmcfVwzQG9S1aI8tseZo+x83tEbd4bO7xNQP75rIu5mFFQ9q+r0bWnSdCkTq1Ktn2Dk2Vb4qD7J7g7QISMTeT5GjwlNk9Hxs1SUDK1KnMpSFv8cnWyT6LfnfI1ILw3tuD25o7BMbLRXgEewvWj5HLYBitGBY7hZ6klWlyAdKKfzrGS6uViJLsfZ6ydwIMrs5/w2IpJR/q5FJF17wY/3dOMY5/t/l47hZNuTO3hlWjsIt2w1YBGQnaxvqEKQy3krXMLgRNKcl2HgMmkvrR0wtabIO94JnCQyViKD3m8vC6EPjgIvWtBaN2TP7M= mylesg@mylesg-a02.vmware.com
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo, docker
+    shell: /bin/bash
+network:
+  version: 2
+  ethernets:
+      ens192:
+          dhcp4: true
+package_update: true
+packages:
+  - nginx
+  - net-tools
+runcmd:
+  - echo '<h1>lb-centos-1</h1>' > /usr/share/nginx/html/index.html
+  - chown root:root /usr/share/nginx/html/index.html
+  - systemctl start nginx
+  - firewall-offline-cmd --add-service=http
+  - firewall-cmd --reload
