@@ -10,7 +10,7 @@ spec:
   - networkName: "primary"
     networkType: vsphere-distributed
   className: best-effort-small
-  imageName: centos-stream-8-vmservice-v1alpha1.20210222
+  imageName: centos-stream-8-vmservice-v1alpha1-1619529007339
   powerState: poweredOn
   storageClass: wcpglobal-storage-profile
   volumes:
