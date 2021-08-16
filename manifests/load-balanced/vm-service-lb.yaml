@@ -2,7 +2,6 @@ apiVersion: vmoperator.vmware.com/v1alpha1
 kind: VirtualMachineService
 metadata:
   name: centos-lb
-  namespace: vm-operator
 spec:
   selector:
     app: lb-app
